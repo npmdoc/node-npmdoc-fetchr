@@ -156,6 +156,12 @@
 
         <li>
 
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">fetchr.</span>http_client</span>
+
+        </li>
+
+        <li>
+
             <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">fetchr.</span>services</span>
 
         </li>
@@ -364,6 +370,46 @@
 
     </ol></li>
 
+    <li class="apidocModuleLi"><a href="#apidoc.module.fetchr.http_client">module fetchr.http_client</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.fetchr.http_client.delete">
+            function <span class="apidocSignatureSpan">fetchr.http_client.</span>delete
+            <span class="apidocSignatureSpan">(url, headers, config, callback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.fetchr.http_client.get">
+            function <span class="apidocSignatureSpan">fetchr.http_client.</span>get
+            <span class="apidocSignatureSpan">(url, headers, config, callback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.fetchr.http_client.post">
+            function <span class="apidocSignatureSpan">fetchr.http_client.</span>post
+            <span class="apidocSignatureSpan">(url, headers, data, config, callback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.fetchr.http_client.put">
+            function <span class="apidocSignatureSpan">fetchr.http_client.</span>put
+            <span class="apidocSignatureSpan">(url, headers, data, config, callback)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
 </ol></div>
 
 <div class="apidocSectionDiv">
@@ -464,7 +510,23 @@
     }
     return service;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+}];
+var op = request.operation;
+if ((op === OP_CREATE) || (op === OP_UPDATE)) {
+    args.splice(3, 0, request._body);
+}
+var service;
+try {
+    service = Fetcher.<span class="apidocCodeKeywordSpan">getService</span>(request.resource);
+    if (!service[op]) {
+      throw new Error(&#x27;operation: &#x27; + op + &#x27; is undefined on service: &#x27; + request.resource);
+    }
+    service[op].apply(service, args);
+} catch (err) {
+    reject({err: err});
+}
+...</pre></li>
     </ul>
 
 
@@ -479,7 +541,23 @@
     <li>description and source-code<pre class="apidocCodePre">isRegistered = function (name) {
     return name &#x26;&#x26; Fetcher.services[name.split(&#x27;.&#x27;)[0]];
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+ * @method getService
+ * @memberof Fetcher
+ * @param {String} name of service
+ * @returns {Function} service
+ */
+Fetcher.getService = function (name) {
+    //Access service by name
+    var service = Fetcher.<span class="apidocCodeKeywordSpan">isRegistered</span>(name);
+    if (!service) {
+        throw new Error(&#x27;Service &#x22;&#x27; + sanitizeResourceName(name) + &#x27;&#x22; could not be found&#x27;);
+    }
+    return service;
+};
+
+/**
+...</pre></li>
     </ul>
 
 
@@ -672,6 +750,8 @@ name: &#x27;data_service&#x27;,
 
 
 
+
+
 </div>
 
 <div class="apidocSectionDiv">
@@ -730,7 +810,23 @@ name: &#x27;data_service&#x27;,
     }
     return service;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+}];
+var op = request.operation;
+if ((op === OP_CREATE) || (op === OP_UPDATE)) {
+    args.splice(3, 0, request._body);
+}
+var service;
+try {
+    service = Fetcher.<span class="apidocCodeKeywordSpan">getService</span>(request.resource);
+    if (!service[op]) {
+      throw new Error(&#x27;operation: &#x27; + op + &#x27; is undefined on service: &#x27; + request.resource);
+    }
+    service[op].apply(service, args);
+} catch (err) {
+    reject({err: err});
+}
+...</pre></li>
     </ul>
 
 
@@ -745,7 +841,23 @@ name: &#x27;data_service&#x27;,
     <li>description and source-code<pre class="apidocCodePre">isRegistered = function (name) {
     return name &#x26;&#x26; Fetcher.services[name.split(&#x27;.&#x27;)[0]];
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+ * @method getService
+ * @memberof Fetcher
+ * @param {String} name of service
+ * @returns {Function} service
+ */
+Fetcher.getService = function (name) {
+    //Access service by name
+    var service = Fetcher.<span class="apidocCodeKeywordSpan">isRegistered</span>(name);
+    if (!service) {
+        throw new Error(&#x27;Service &#x22;&#x27; + sanitizeResourceName(name) + &#x27;&#x22; could not be found&#x27;);
+    }
+    return service;
+};
+
+/**
+...</pre></li>
     </ul>
 
 
@@ -1126,7 +1238,24 @@ fetcher
         .clientConfig(config)
         .end(callback);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+});
+if (1 === arguments.length) {
+    return request;
+}
+// TODO: Uncomment warnings in next minor release
+// if (&#x27;production&#x27; !== process.env.NODE_ENV) {
+//     console.warn(&#x27;The recommended way to use fetcher\&#x27;s .update method is \n&#x27; +
+//         &#x27;.<span class="apidocCodeKeywordSpan">update</span>(\&#x27;&#x27; + resource + &#x27;\&#x27;).params({foo:bar}).
+body({}).end(callback);&#x27;);
+// }
+// TODO: Remove below this line in release after next
+if (typeof config === &#x27;function&#x27;) {
+    callback = config;
+    config = {};
+}
+return request
+...</pre></li>
     </ul>
 
 
@@ -1346,7 +1475,24 @@ fetcher
         .clientConfig(clientConfig)
         .end(callback);
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+});
+if (1 === arguments.length) {
+    return request;
+}
+// TODO: Uncomment warnings in next minor release
+// if (&#x27;production&#x27; !== process.env.NODE_ENV) {
+//     console.warn(&#x27;The recommended way to use fetcher\&#x27;s .update method is \n&#x27; +
+//         &#x27;.<span class="apidocCodeKeywordSpan">update</span>(\&#x27;&#x27; + resource + &#x27;\&#x27;).params({foo:bar}).
+body({}).end(callback);&#x27;);
+// }
+// TODO: Remove below this line in release after next
+if (typeof config === &#x27;function&#x27;) {
+    callback = config;
+    config = {};
+}
+return request
+...</pre></li>
     </ul>
 
 
@@ -1377,6 +1523,105 @@ fetcher.<span class="apidocCodeKeywordSpan">updateOptions</span>({
 
 ## Error Handling
 ...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.fetchr.http_client" id="apidoc.module.fetchr.http_client">module fetchr.http_client</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.fetchr.http_client.delete" id="apidoc.element.fetchr.http_client.delete">
+        function <span class="apidocSignatureSpan">fetchr.http_client.</span>delete
+        <span class="apidocSignatureSpan">(url, headers, config, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">delete = function (url, headers, config, callback) {
+    return doXhr(METHOD_DELETE, url, headers, NULL, config, callback);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.fetchr.http_client.get" id="apidoc.element.fetchr.http_client.get">
+        function <span class="apidocSignatureSpan">fetchr.http_client.</span>get
+        <span class="apidocSignatureSpan">(url, headers, config, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">get = function (url, headers, config, callback) {
+    return doXhr(METHOD_GET, url, headers, NULL, config, callback);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+    } else {
+        use_post = true;
+    }
+}
+
+var customHeaders = clientConfig.headers || request.options.headers || {};
+if (!use_post) {
+    return REST.<span class="apidocCodeKeywordSpan">get</span>(uri, customHeaders, lodash.merge({xhrTimeout: request.options.xhrTimeout
+}, clientConfig), function getDone(err, response) {
+        if (err) {
+            debug(&#x27;Syncing &#x27; + request.resource + &#x27; failed: statusCode=&#x27; + err.statusCode, &#x27;info&#x27;);
+            return reject(err);
+        }
+        resolve(parseResponse(response));
+    });
+}
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.fetchr.http_client.post" id="apidoc.element.fetchr.http_client.post">
+        function <span class="apidocSignatureSpan">fetchr.http_client.</span>post
+        <span class="apidocSignatureSpan">(url, headers, data, config, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">post = function (url, headers, data, config, callback) {
+    return doXhr(METHOD_POST, url, headers, data, config, callback);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+}
+data = {
+    requests: requests,
+    context: request.options.context
+}; // TODO: remove. leave here for now for backward compatibility
+uri = request._constructGroupUri(uri);
+allow_retry_post = (request.operation === OP_READ);
+return REST.<span class="apidocCodeKeywordSpan">post</span>(uri, customHeaders, data, lodash.merge({unsafeAllowRetry: allow_retry_post
+, xhrTimeout: request.options.xhrTimeout}, clientConfig), function postDone(err, response) {
+    if (err) {
+        debug(&#x27;Syncing &#x27; + request.resource + &#x27; failed: statusCode=&#x27; + err.statusCode, &#x27;info&#x27;);
+        return reject(err);
+    }
+    var result = parseResponse(response);
+    if (result) {
+        result = result[DEFAULT_GUID] || {};
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.fetchr.http_client.put" id="apidoc.element.fetchr.http_client.put">
+        function <span class="apidocSignatureSpan">fetchr.http_client.</span>put
+        <span class="apidocSignatureSpan">(url, headers, data, config, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">put = function (url, headers, data, config, callback) {
+    return doXhr(METHOD_PUT, url, headers, data, config, callback);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
 
 
