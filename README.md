@@ -1,6 +1,6 @@
 # npmdoc-fetchr
 
-#### api documentation for  [fetchr (v0.5.37)](https://github.com/yahoo/fetchr#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-fetchr.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-fetchr) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-fetchr.svg)](https://travis-ci.org/npmdoc/node-npmdoc-fetchr)
+#### basic api documentation for  [fetchr (v0.5.37)](https://github.com/yahoo/fetchr#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-fetchr.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-fetchr) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-fetchr.svg)](https://travis-ci.org/npmdoc/node-npmdoc-fetchr)
 
 #### Fetchr augments Flux applications by allowing Flux stores to be used on server and client to fetch data
 
@@ -104,7 +104,8 @@
         "lint": "jshint libs tests",
         "test": "NODE_ENV=test mocha tests/unit/ --recursive --reporter spec --timeout 20000"
     },
-    "version": "0.5.37"
+    "version": "0.5.37",
+    "bin": {}
 }
 ```
 
